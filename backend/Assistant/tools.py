@@ -124,14 +124,30 @@ def calculate_semester_gpa(
         return "Error: total credit hours must be greater than 0"
 
     total_chs = sum(credit_hours)
-    total_gps = 0.0
 
-    for gp, ch in zip(grade_points, credit_hours):
-        total_gps += gp * ch
-
-    return total_gps / total_chs
+    total_gps = total_grade_points(grade_points , credit_hours)
+    return round(total_gps / total_chs, 2)
 
 
+def total_grade_points(grade_points: list[float], credit_hours: list[float]) -> (float|str):
+        """Use this tool when calculating the total grade points for one semester from grade points and credit hours."""
+
+        if not grade_points or not credit_hours:
+            return "Error: grade points and credit hours cannot be empty"
+
+        if len(grade_points) != len(credit_hours):
+            return "Error: grade points and credit hours must have the same length"
+
+        if sum(credit_hours) <= 0:
+            return "Error: total credit hours must be greater than 0"
+
+        total_chs = sum(credit_hours)
+        total_gps = 0.0
+
+        for gp, ch in zip(grade_points, credit_hours):
+            total_gps += gp * ch
+
+        return round(total_gps , 2)
 
 
 def calculate_new_cgpa(
