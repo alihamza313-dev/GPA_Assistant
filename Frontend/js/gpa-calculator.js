@@ -137,6 +137,7 @@ async function load_gpa() {
         const response = await result.json();
 
         render_gpa(response, sem);
+        localStorage.setItem('GPA' , response.gpa);
 
     } catch (error) {
         console.error("GPA calculation error:", error);
