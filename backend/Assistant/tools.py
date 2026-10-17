@@ -1,3 +1,6 @@
+import json
+
+
 COURSES = {
     1: [
         ("MS-251", "Probability & Statistics", 3.0),
@@ -233,23 +236,25 @@ def get_remaining_credit_hours(current_semester: int) -> float|str:
     return remaining_credit_hours
 
 
+
 def save_report(filename: str, content: str) -> str:
-    """Use this tool only when the student explicitly asks to save a useful GPA, CGPA, or target plan report."""
+    """Prepare a GPA or CGPA report for saving in the user's browser."""
 
-    if not filename.strip():
-        return "Error: filename cannot be empty"
+    filename = filename.strip()
+    content = content.strip()
 
-    if not content.strip():
-        return "Error: report content cannot be empty"
+    if not filename:
+        return "Error: report title cannot be empty."
 
-    try:
-        with open(filename, "w", encoding="utf-8") as file:
-            file.write(content)
+    if not content:
+        return "Error: report content cannot be empty."
 
-        return f"Report saved successfully to {filename}"
+    return json.dumps({
+        "type": "report_to_save",
+        "filename": filename,
+        "content": content
+    })
 
-    except OSError as error:
-        return f"Error: could not save report - {error}"
 
 
 def get_sem_credit_hours(sem:int)->list[float]:
