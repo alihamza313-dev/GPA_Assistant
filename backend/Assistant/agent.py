@@ -1,9 +1,9 @@
 from langchain_core.messages import HumanMessage
 from langchain.agents import create_agent
 
-from llm import model
+from Assistant.llm import model
 
-from tools import (
+from Assistant.tools import (
     marks_to_grade_points,
     calculate_semester_gpa,
     calculate_new_cgpa,
@@ -70,22 +70,12 @@ agent = create_agent(
 )
 
 
-messages = []
 
-
-while True:
-    user_input = input("You: ")
-
-    if user_input.lower() in ["exit", "quit"]:
-        print("Goodbye!")
-        break
-
-    messages.append(HumanMessage(content=user_input))
+def run_assistant(messages: list):
+    """Run the GPA assistant using the supplied conversation messages."""
 
     result = agent.invoke({
         "messages": messages
     })
 
-    messages = result["messages"]
-
-    print("Agent:", messages[-1].content)
+    return result["messages"]
