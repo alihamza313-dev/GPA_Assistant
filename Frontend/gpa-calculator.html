@@ -155,25 +155,35 @@
       </div>
 
       <!-- Result panel: hidden until a result is returned by the backend -->
+
       <section id="gpa-result-section" style="margin-top: 24px;" hidden>
         <div class="result-panel">
           <div>
             <p class="result-primary-label">Semester GPA</p>
-            <p class="result-primary-value" id="gpa-result-value">0.00</p>
+
+            <p class="result-primary-value" id="gpa-result-value">
+              0.00
+            </p>
+
+            <p id="gpa-result-status" class="gpa-result-status" role="status" aria-live="polite" hidden></p>
           </div>
+
           <div class="result-meta">
             <div class="result-meta-item">
               <p class="result-meta-label">Semester</p>
               <p class="result-meta-value" id="gpa-result-semester">--</p>
             </div>
+
             <div class="result-meta-item">
               <p class="result-meta-label">Total Credit Hours</p>
               <p class="result-meta-value" id="gpa-result-credits">--</p>
             </div>
+
             <div class="result-meta-item">
               <p class="result-meta-label">Total Grade Points</p>
               <p class="result-meta-value" id="gpa-grade-points">--</p>
             </div>
+
             <div class="result-meta-item">
               <p class="result-meta-label">Courses</p>
               <p class="result-meta-value" id="gpa-result-count">--</p>

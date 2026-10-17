@@ -6,6 +6,8 @@ const empty_tag = document.getElementById("course-empty-state");
 const cal_gpa_btn = document.getElementById("calculate-gpa-btn");
 const reset_btn = document.getElementById("reset-gpa-form-btn");
 const gpa_result_sec = document.getElementById("gpa-result-section")
+const gpaValueElement = document.getElementById("gpa-result-value");
+const gpaResultStatus = document.getElementById("gpa-result-status");
 
 sem_field.addEventListener("change", (e) => {
     const sem = e.target.value;
@@ -137,6 +139,7 @@ async function load_gpa() {
         const response = await result.json();
 
         render_gpa(response, sem);
+        displayGpaResult(response.gpa);
         localStorage.setItem('GPA' , response.gpa);
 
     } catch (error) {
@@ -205,4 +208,43 @@ function render_gpa(result, semester) {
         result.course_count;
 
     gpa_result_sec.hidden = false;
+    cal_gpa_btn.disabled = true;
+}
+
+function displayGpaResult(gpaValue) {
+    const gpa = Number(gpaValue);
+
+    gpaValueElement.classList.remove("is-failed", "is-success");
+
+    gpaResultStatus.classList.remove(
+        "is-failed",
+        "is-success",
+        "is-warning"
+    );
+
+    if (gpaValue === null || gpaValue === undefined ||
+        gpaValue === "" || !Number.isFinite(gpa)) {
+
+        gpaValueElement.textContent = "--";
+        gpaResultStatus.textContent = "Unable to calculate GPA.";
+        gpaResultStatus.classList.add("is-warning");
+
+    } else if (gpa === 0) {
+        gpaValueElement.textContent = "Failed";
+        gpaValueElement.classList.add("is-failed");
+
+        gpaResultStatus.textContent =
+            "Your calculated semester GPA is 0.00. Review your marks.";
+        gpaResultStatus.classList.add("is-failed");
+
+    } else {
+        gpaValueElement.textContent = gpa.toFixed(2);
+        gpaValueElement.classList.add("is-success");
+
+        gpaResultStatus.textContent =
+            "GPA calculated successfully.";
+        gpaResultStatus.classList.add("is-success");
+    }
+
+    gpaResultStatus.hidden = false;
 }

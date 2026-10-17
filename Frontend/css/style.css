@@ -71,7 +71,12 @@ body {
   background-color: var(--color-bg);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   font-weight: 600;
   line-height: 1.3;
@@ -86,7 +91,8 @@ a {
   text-decoration: none;
 }
 
-ul, ol {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -100,7 +106,8 @@ table {
   border-collapse: collapse;
 }
 
-img, svg {
+img,
+svg {
   display: block;
   max-width: 100%;
 }
@@ -340,7 +347,7 @@ textarea:focus-visible,
 }
 
 .stat-card-label {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--color-text-muted);
   margin-bottom: 8px;
 }
@@ -352,13 +359,13 @@ textarea:focus-visible,
 }
 
 .stat-card-value.is-empty {
-  color: var(--color-text-muted);
-  font-weight: 600;
+  color: #0e3266;
+  font-weight: 800;
 }
 
 .stat-card-hint {
   margin-top: 6px;
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--color-text-muted);
 }
 
@@ -825,6 +832,73 @@ fieldset {
   color: var(--color-text);
 }
 
+
+.ai-plan-card {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid #dbe4ee;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.ai-plan-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.ai-plan-card p {
+    margin-bottom: 0;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+
+.cgpa-report-actions {
+    margin-top: 20px;
+}
+
+.cgpa-report-actions button[hidden] {
+    display: none !important;
+}
+
+#cgpa-report-save-status {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+
+
+.gpa-result-status {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.gpa-result-status.is-failed {
+    color: #dc2626;
+}
+
+.gpa-result-status.is-success {
+    color: #15803d;
+}
+
+.gpa-result-status.is-warning {
+    color: #b45309;
+}
+
+#gpa-result-value.is-failed {
+    color: #dc2626;
+}
+
+#gpa-result-value.is-success {
+    color: #15803d;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
 /* ---------------------------------------------------------
    12. CHAT / GPA ASSISTANT
    --------------------------------------------------------- */
@@ -971,9 +1045,10 @@ fieldset {
 
 .report-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 1px;
   padding: 16px 20px;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -1009,6 +1084,155 @@ fieldset {
   margin-top: 2px;
 }
 
+
+
+/* Reports page */
+
+#report-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+#report-list[hidden],
+#reports-empty-state[hidden] {
+    display: none !important;
+}
+
+.report-card {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    transition: box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.report-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.report-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.report-heading-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+}
+
+.report-title {
+    margin: 0;
+    color: #172033;
+    font-size: 17px;
+    font-weight: 650;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.report-type {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 6px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.report-date {
+    margin: 2px 0 0;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.report-content {
+    max-height: 260px;
+    overflow: auto;
+    margin: 0 0 20px;
+    padding: 15px;
+    border: 1px solid #eef2f7;
+    border-radius: 9px;
+    background: #f8fafc;
+    color: #334155;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.report-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #eef2f7;
+}
+
+.report-actions button {
+    min-height: 38px;
+    padding: 9px 14px;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #334155;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.report-actions .report-download-btn {
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.report-actions .report-download-btn:hover {
+    border-color: #1d4ed8;
+    background: #1d4ed8;
+}
+
+.report-actions .report-delete-btn:hover {
+    border-color: #fecaca;
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.report-actions button:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+    #report-list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .report-card {
+        padding: 17px;
+    }
+
+    .report-card-header {
+        flex-direction: column;
+    }
+}
+
 /* ---------------------------------------------------------
    14. ABOUT PAGE
    --------------------------------------------------------- */
@@ -1016,7 +1240,7 @@ fieldset {
   max-width: 680px;
 }
 
-.about-content .card + .card {
+.about-content .card+.card {
   margin-top: 16px;
 }
 
@@ -1135,4 +1359,8 @@ fieldset {
     transition: none !important;
     animation: none !important;
   }
+}
+
+[hidden] {
+    display: none !important;
 }
