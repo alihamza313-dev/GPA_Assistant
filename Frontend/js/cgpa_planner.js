@@ -1,5 +1,5 @@
 
-const API_URL = "http://127.0.0.1:8000/cgpa-plan";
+const API_URL = "/cgpa-plan";
 
 // Get HTML elements.
 const form = document.getElementById("cgpa-planner-form");

@@ -1,6 +1,6 @@
 export async function load_courses(semester , render_function) {
     try {
-        const response = await fetch("http://127.0.0.1:8000/courses");
+        const response = await fetch("/courses");
 
         if (!response.ok) {
             throw new Error("Failed to load courses")

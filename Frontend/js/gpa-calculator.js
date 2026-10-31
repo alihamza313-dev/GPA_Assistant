@@ -112,7 +112,7 @@ async function load_gpa() {
 
     try {
         const sem = Number(localStorage.getItem("semester"));
-        const result = await fetch(`http://127.0.0.1:8000/GPA`,
+        const result = await fetch(`/GPA`,
             {
                 method: "POST",
                 headers: {

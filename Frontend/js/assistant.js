@@ -1,5 +1,5 @@
 
-const API_URL = "http://127.0.0.1:8000/assistant/chat";
+const API_URL = "/assistant/chat";
 
 const chatInput = document.getElementById("chat-input");
 const sendButton = document.getElementById("send-message-btn");

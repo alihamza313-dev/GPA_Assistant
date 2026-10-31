@@ -852,6 +852,27 @@ fieldset {
     white-space: pre-wrap;
 }
 
+#dashboard-publish-status {
+    display: none;
+    margin: 15px 0;
+    padding: 14px 20px;
+    background-color: #e8f8ee;
+    color: #218838;
+    border: 1px solid #b7ebc6;
+    border-left: 4px solid #28a745;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+}
+
+/* Show when message is added */
+#dashboard-publish-status:not(:empty) {
+    display: block;
+}
+
 
 .cgpa-report-actions {
     margin-top: 20px;
@@ -896,6 +917,120 @@ fieldset {
 
 [hidden] {
     display: none !important;
+}
+
+/* ---------------------------------------------------------
+   16. TOAST NOTIFICATIONS
+   --------------------------------------------------------- */
+.toast-container {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(380px, calc(100vw - 32px));
+  pointer-events: none; /* clicks pass through the empty area around toasts */
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px 12px 16px;
+  background-color: #0f172a;
+  color: #f8fafc;
+  border-left: 4px solid #64748b;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25),
+              0 2px 6px rgba(15, 23, 42, 0.15);
+  font-size: 14px;
+  line-height: 1.4;
+  animation: toast-in 200ms ease-out;
+}
+
+.toast.is-success {
+  border-left-color: #22c55e;
+}
+
+.toast.is-error {
+  border-left-color: #ef4444;
+}
+
+.toast.is-leaving {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.toast-message {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.toast-action {
+  padding: 6px 10px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #93c5fd;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.toast-action:hover {
+  background-color: rgba(147, 197, 253, 0.15);
+  color: #bfdbfe;
+}
+
+.toast-close {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #94a3b8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.toast-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+}
+
+/* The default blue focus ring is hard to see on a dark background */
+.toast button:focus-visible {
+  outline: 2px solid #bfdbfe;
+  outline-offset: 1px;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* On phones the toast spans the width, just above the bottom edge */
+@media (max-width: 520px) {
+  .toast-container {
+    right: 16px;
+    left: 16px;
+    bottom: 16px;
+    width: auto;
+  }
 }
 
 
