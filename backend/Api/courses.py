@@ -14,24 +14,14 @@ from langchain_core.messages import HumanMessage
 from Assistant.agent import run_assistant
 
 import json
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
 
 import logging
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:5595",
-        "http://localhost:5595"
-    ],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-
 
 
 @app.get("/courses")
@@ -42,8 +32,16 @@ def get_courses():
 @app.post("/GPA")
 def cal_gpa(data : GPARequest):
 
+    if data.sem not in COURSES:
+        raise HTTPException(status_code=422, detail="Semester must be between 1 and 8.")
+
     credits_hrs = get_sem_credit_hours(data.sem)
-    grade_points = [marks_to_grade_points(i) for i in data.marks]
+    if len(data.marks) != len(credits_hrs):
+        raise HTTPException(status_code=422, detail=f"Expected {len(credits_hrs)} marks.")
+
+    grade_points = [marks_to_grade_points(m) for m in data.marks]
+    if any(isinstance(g, str) for g in grade_points):
+        raise HTTPException(status_code=422, detail="Marks must be between 0 and 100.")
 
     gpa = calculate_semester_gpa(grade_points , credits_hrs)
     total_gp = total_grade_points(grade_points , credits_hrs)
@@ -64,6 +62,8 @@ def cal_gpa(data : GPARequest):
 
 
 conversation_histories = {}
+MAX_CONVERSATIONS = 500   # how many chats the server remembers at once
+MAX_MESSAGES = 200      # length limit for one chat
 
 @app.post("/assistant/chat")
 def assistant_chat(data: ChatRequest):
@@ -75,8 +75,28 @@ def assistant_chat(data: ChatRequest):
             detail="Message cannot be empty."
         )
 
+    # conversation_id = data.conversation_id or str(uuid4())
+    # history = conversation_histories.setdefault(conversation_id, [])
+
     conversation_id = data.conversation_id or str(uuid4())
+
+# If the server is full and this is a new chat, forget the oldest chat.
+# (A dict remembers insertion order, so next(iter(...)) is the oldest key.)
+    if (
+        len(conversation_histories) >= MAX_CONVERSATIONS
+        and conversation_id not in conversation_histories
+    ):
+        oldest_id = next(iter(conversation_histories))
+        del conversation_histories[oldest_id]
+
     history = conversation_histories.setdefault(conversation_id, [])
+
+    # One chat can't grow without limit
+    if len(history) >= MAX_MESSAGES:
+        raise HTTPException(
+            status_code=400,
+            detail="This conversation is too long. Start a new conversation."
+        )
 
     # Remember where this request's new messages begin.
     previous_length = len(history)
@@ -268,3 +288,11 @@ Verified calculation data:
         **calculation_result,
         "ai_explanation": explanation,
     }
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+FRONTEND_DIR = Path(__file__).resolve().parent.parent.parent / "Frontend"
+app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
