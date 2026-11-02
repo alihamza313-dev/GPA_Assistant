@@ -1,0 +1,45 @@
+/* Assistant page on phones: chat pinned between top bar and bottom nav */
+@media (max-width: 768px), (orientation: landscape) and (max-height: 500px) {
+
+  .chat-layout {
+    position: fixed;
+    top: var(--topbar-height);
+    left: 0;
+    right: 0;
+    bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+    z-index: 10;
+    height: auto;
+    min-height: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+  }
+
+  .main-content {
+    height: auto;
+    min-height: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .main-content .page-header {
+    display: none;
+  }
+
+  .chat-toolbar,
+  .chat-input-bar {
+    flex: 0 0 auto;
+  }
+
+  .chat-messages,
+  .chat-empty {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .chat-input-bar > div {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
